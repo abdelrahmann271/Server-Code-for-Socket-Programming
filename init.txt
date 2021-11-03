@@ -1,0 +1,58 @@
+Server::Server(std::string port) {
+    WSADATA wsaData;
+    int iResult;
+    struct addrinfo *result = nullptr;
+    struct addrinfo hints{};
+
+
+    // Initialize Winsock
+    iResult = WSAStartup(MAKEWORD(2, 2), &wsaData);
+    if (iResult != 0) {
+        printf("WSAStartup failed with error: %d\n", iResult);
+        return;
+    }
+
+    ZeroMemory(&hints, sizeof(hints));
+    hints.ai_family = AF_INET;
+    hints.ai_socktype = SOCK_STREAM;
+    hints.ai_protocol = IPPROTO_TCP;
+    hints.ai_flags = AI_PASSIVE;
+
+    struct sockaddr_in my_addr; // my address information
+
+    // Resolve the server address and port
+    iResult = getaddrinfo(nullptr, port.c_str(), &hints, &result);
+    if (iResult != 0) {
+        printf("getaddrinfo failed with error: %d\n", iResult);
+        WSACleanup();
+        return;
+    }
+
+    // Create a SOCKET for connecting to server
+    this->listenSocket = socket(result->ai_family, result->ai_socktype, result->ai_protocol);
+    if (this->listenSocket == INVALID_SOCKET) {
+        printf("socket failed with error: %ld\n", WSAGetLastError());
+        freeaddrinfo(result);
+        WSACleanup();
+        return;
+    }
+
+    // Setup the TCP listening socket
+    iResult = bind(this->listenSocket, result->ai_addr, (int) result->ai_addrlen);
+    if (iResult == SOCKET_ERROR) {
+        printf("bind failed with error: %d\n", WSAGetLastError());
+        freeaddrinfo(result);
+        closesocket(this->listenSocket);
+        WSACleanup();
+        return;
+    }
+
+    freeaddrinfo(result);
+    iResult = listen(this->listenSocket, SOMAXCONN);
+    if (iResult == SOCKET_ERROR) {
+        printf("listen failed with error: %d\n", WSAGetLastError());
+        closesocket(this->listenSocket);
+        WSACleanup();
+        return;
+    }
+}
