@@ -80,6 +80,9 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="C:/Users/Abdelrahman Nour/CLionProjects/network/handle_connections.h">
+			<Option target="network"/>
+		</Unit>
 		<Unit filename="C:/Users/Abdelrahman Nour/CLionProjects/network/http_parser.h">
 			<Option target="network"/>
 		</Unit>

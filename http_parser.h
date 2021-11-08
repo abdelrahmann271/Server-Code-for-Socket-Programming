@@ -11,6 +11,39 @@
 using std::ofstream;
 using namespace std;
 
+class HTTP{
+    string status;
+    unordered_map<string,string> headers;
+    string body;
+
+    public:
+    HTTP(){
+
+    }
+    void set_status(int status_code){
+        status = to_string(status_code);
+    }
+    void add_header(string header_name , string header_value){
+        headers[header_name] = header_value;
+    }
+    void  add_body(string message){
+        body = message;
+    }
+    string build(){
+        string http = "";
+        http+=("HTTP/1.1 "+status+"\r\n");
+        for (auto i = headers.begin(); i != headers.end(); i++){
+            //cout<<i->first<<": "<<i->second<<"\r\n";
+            http+=i->first+": "+i->second+"\r\n";
+        }
+        http+="\r\n";
+        http+=body;
+        //cout<<http<<" henaaa\n";
+        return http;
+    }
+
+
+};
 
 int size_of_message(char* buffer){
     int g = 0;
@@ -64,34 +97,64 @@ void parse_http(char *message ,
                 string &body ,
                 int size_of_message){
 
-    vector<char *> lines = get_lines(message);
-//    for(int i = 0 ; i < lines.size() ; i++){
-//        cout<<lines[i];
-//    }
-    vector<char *> words = get_words(lines[0]);
 
+//    cout<<size_of_message<<"\n";
+    int i =0;
+    int end_of_headers;
+    for( ; i < size_of_message ; i++){
+        if(message[i] == '\r' && message[i+1] == '\n' && message[i+2] == '\r' && message[i+3] == '\n'){
+            end_of_headers = i-1;
+            break;
+        }
+    }
+    int k = 0 ;
+    char msg[end_of_headers+1];
+    while(k!=end_of_headers){
+        msg[k] = message[k];
+        k++;
+    }
+    msg[k]='\0';
+    int j = i+4;
+//    int j = i+4;
+//    while(message[j] != '\0' ){
+//        body+=message[j];
+//        j++;
+//    }
+    vector<char *> lines = get_lines(msg);
+    vector<char *> words = get_words(lines[0]);
     method = words[0];
     filename = words[1];
     http_version = words[2];
-
-
     char *word;
     for(int i = 1 ; i < lines.size() ; i++){
-        //split on :(space)
         vector<char *> words;
         word= strtok(lines[i], ": ");
         while (word != NULL)
         {
             words.push_back(word);
-            //cout<<word<<"\n";
             word = strtok(NULL, ": ");
         }
         headers[words[0]] = words[1];
     }
-
-    int len = stoi(headers["Content-Length"]);
-    for(int i = (size_of_message-len) ; i < size_of_message ; i++){
-        body.push_back(message[i]);
+    int cnt = stoi(headers["Content-Length"]);
+    int y = 0;
+    while(y<cnt){
+        body+=message[j];
+        j++;
+        y++;
     }
+
+
+//    if(headers.find("Content-Length") != headers.end()){
+//        int len = stoi(headers["Content-Length"]);
+//        cout<<size_of_message<<" "<<len<<"\n";
+//        cout<<"hena 1 \n"<<body<<"\n";
+//        for(int i = (size_of_message-len) ; i < size_of_message ; i++){
+//            body.push_back(message[i]);
+//        }
+//        cout<<"hena 2 \n"<<body<<"\n";
+//    }
+
+
 
 }
