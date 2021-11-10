@@ -6,6 +6,38 @@
 
 #IncludeRegexTransform: 
 
+C:/Users/Abdelrahman Nour/CLionProjects/network/connection_handler.h
+cstdio
+-
+cstdlib
+-
+cstring
+-
+winsock.h
+-
+iostream
+-
+fstream
+-
+bits/stdc++.h
+-
+thread
+-
+
+C:/Users/Abdelrahman Nour/CLionProjects/network/file_handler.h
+iostream
+-
+iostream
+-
+string
+-
+sys/stat.h
+-
+errno.h
+-
+direct.h
+-
+
 C:/Users/Abdelrahman Nour/CLionProjects/network/http_parser.h
 cstdio
 -
@@ -39,6 +71,10 @@ bits/stdc++.h
 -
 http_parser.h
 C:/Users/Abdelrahman Nour/CLionProjects/network/http_parser.h
+file_handler.h
+C:/Users/Abdelrahman Nour/CLionProjects/network/file_handler.h
+connection_handler.h
+C:/Users/Abdelrahman Nour/CLionProjects/network/connection_handler.h
 thread
 -
 

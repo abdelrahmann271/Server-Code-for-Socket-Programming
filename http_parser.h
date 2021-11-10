@@ -109,7 +109,7 @@ void parse_http(char *message ,
     }
     int k = 0 ;
     char msg[end_of_headers+1];
-    while(k!=end_of_headers){
+    while(k!=end_of_headers+1){
         msg[k] = message[k];
         k++;
     }
@@ -136,7 +136,8 @@ void parse_http(char *message ,
         }
         headers[words[0]] = words[1];
     }
-    int cnt = stoi(headers["Content-Length"]);
+    int cnt = ( headers.find("Content-Length") == headers.end() )? 0 : stoi(headers["Content-Length"]);
+    //cout<<headers["Content-Length"]<<" content length\n";
     int y = 0;
     while(y<cnt){
         body+=message[j];
