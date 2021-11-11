@@ -13,7 +13,7 @@
 using std::ofstream;
 using namespace std;
 #define MYPORT 4000
-#define DEFAULT_BUFLEN 8196
+#define DEFAULT_BUFLEN 9000
 //cout<<"==>"<<AY_5ARA<<"\n";
 
 int main(int argc, char *argv[]) {
@@ -72,9 +72,10 @@ int main(int argc, char *argv[]) {
         }
         cout<<"==>"<<"Creating a thread for the conncetion .. "<<"\n";
         CreateThread(NULL, 0, handle_conncetion, new thread_data(new_fd) , 0, 0);
-
     }
 #pragma clang diagnostic pop
+
+    return 0;
 }
 
 

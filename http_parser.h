@@ -98,6 +98,7 @@ void parse_http(char *message ,
                 int size_of_message){
 
 
+
 //    cout<<size_of_message<<"\n";
     int i =0;
     int end_of_headers;
@@ -115,6 +116,7 @@ void parse_http(char *message ,
     }
     msg[k]='\0';
     int j = i+4;
+
 //    int j = i+4;
 //    while(message[j] != '\0' ){
 //        body+=message[j];
@@ -126,20 +128,32 @@ void parse_http(char *message ,
     filename = words[1];
     http_version = words[2];
     char *word;
+
+    for(int i = 0 ; i < size_of_message ; i++){
+        cout<<message[i];
+    }
+
     for(int i = 1 ; i < lines.size() ; i++){
+
         vector<char *> words;
         word= strtok(lines[i], ": ");
+
         while (word != NULL)
         {
             words.push_back(word);
+
             word = strtok(NULL, ": ");
+
         }
+
         headers[words[0]] = words[1];
+
     }
+
     int cnt = ( headers.find("Content-Length") == headers.end() )? 0 : stoi(headers["Content-Length"]);
     //cout<<headers["Content-Length"]<<" content length\n";
     int y = 0;
-    while(y<cnt){
+    while(y<cnt && j < size_of_message){
         body+=message[j];
         j++;
         y++;
