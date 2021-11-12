@@ -33,12 +33,10 @@ class HTTP{
         string http = "";
         http+=("HTTP/1.1 "+status+"\r\n");
         for (auto i = headers.begin(); i != headers.end(); i++){
-            //cout<<i->first<<": "<<i->second<<"\r\n";
             http+=i->first+": "+i->second+"\r\n";
         }
         http+="\r\n";
         http+=body;
-        //cout<<http<<" henaaa\n";
         return http;
     }
 
@@ -99,7 +97,7 @@ void parse_http(char *message ,
 
 
 
-//    cout<<size_of_message<<"\n";
+
     int i =0;
     int end_of_headers;
     for( ; i < size_of_message ; i++){
@@ -129,9 +127,9 @@ void parse_http(char *message ,
     http_version = words[2];
     char *word;
 
-    for(int i = 0 ; i < size_of_message ; i++){
-        cout<<message[i];
-    }
+//    for(int i = 0 ; i < size_of_message ; i++){
+//        cout<<message[i];
+//    }
 
     for(int i = 1 ; i < lines.size() ; i++){
 
@@ -140,12 +138,10 @@ void parse_http(char *message ,
 
         while (word != NULL)
         {
+
             words.push_back(word);
-
             word = strtok(NULL, ": ");
-
         }
-
         headers[words[0]] = words[1];
 
     }

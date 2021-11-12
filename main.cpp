@@ -14,7 +14,7 @@ using std::ofstream;
 using namespace std;
 #define MYPORT 4000
 #define DEFAULT_BUFLEN 9000
-//cout<<"==>"<<AY_5ARA<<"\n";
+
 
 int main(int argc, char *argv[]) {
 
