@@ -9,7 +9,7 @@
 
 using std::ofstream;
 using namespace std;
-#define MYPORT 4000
+//#define MYPORT 4000
 #define DEFAULT_BUFLEN 9000
 
 struct thread_data
@@ -99,6 +99,7 @@ DWORD WINAPI handle_conncetion(LPVOID lpParameter)
             for(int i = 0 ; i < totalBytes ; i++){
                 cout<<buffer[i];
             }
+            cout<<"\n";
             int bodyLength = std::atoi(headers["Content-Length"].c_str());
             cout<<"==>"<<"Content Length"<<"\n";
             cout<<bodyLength<<"\n";
@@ -119,31 +120,18 @@ DWORD WINAPI handle_conncetion(LPVOID lpParameter)
             break;
         }
 
-//        cout<<"==>"<<"Number of bytes Receieved: "<<bReceived<<"\n";
-//        cout<<"==>"<<"Message Received:"<<"\n";
-//        for(int i = 0 ; i <  bReceived; i++ ){
-//            cout<<buffer[i];
-//        }
-//
-////        Reading Buffer and parsing it.
-//
-//        unordered_map<string,string> headers;
-//        string method;
-//        string file_name;
-//        string http_version;
-//        string body = "";
-//        parse_http( buffer, headers, method, file_name, http_version,body,size_of_message( buffer));
-//        cout<<method;
+        //After Recieving and parsing the message .. handle the request ..
+
         if( method=="GET" ){
-            cout<<"debug1\n";
+
+            //Read the file.
             file_name = "/Users/Abdelrahman Nour/CLionProjects/network" + file_name;
-            //char buffer_of_file[2000];
             char buffer_of_file[DEFAULT_BUFLEN];
             std::ifstream input;
             input.open(file_name,ios::in | ios::binary);
-            cout<<"debug2\n";
-            //If the file is not found.
 
+
+            //If the file is not found.
             if(!input){
                 cout << "==>" << "File Not Found .. \n";
                 HTTP response;
@@ -164,7 +152,6 @@ DWORD WINAPI handle_conncetion(LPVOID lpParameter)
 
             else{
 
-                cout<<"debug3\n";
                 HTTP request;
                 request.set_status(200);
 
@@ -184,11 +171,9 @@ DWORD WINAPI handle_conncetion(LPVOID lpParameter)
                     }
                 }
                 request.add_header("Content-Length", to_string(size_of_file_to_send));
-                //cout<<to_string(size_of_file_to_send)<<"\n";
                 request.add_body(body);
                 string whole_request = request.build();
                 cout<<whole_request.size()<<"\n";
-                cout<<"debug555\n";
                 int cnt = 0;
                 while(cnt<whole_request.size()){
                     char buffer_of_file[DEFAULT_BUFLEN];
@@ -214,15 +199,10 @@ DWORD WINAPI handle_conncetion(LPVOID lpParameter)
             char buffer_of_file[DEFAULT_BUFLEN];
             ofstream MyFile;
             string createFile = "";
-//            string path = file_name;
             file_name = "/Users/Abdelrahman Nour/CLionProjects/network" + file_name;
             string path = file_name;
-            //createFile = path + "/" + "SAMPLE_FILENAME" + ".txt";
-            //createFile = path;
             createFile =  path;
             MyFile.open(createFile.c_str(), std::ofstream::binary | std::ofstream::out);
-            //MyFile.open(createFile.c_str());
-
             if (!MyFile) {
                 cout << "==>" << "File Not Found .. Creating File ..\n";
                 //

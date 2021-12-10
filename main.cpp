@@ -12,14 +12,14 @@
 
 using std::ofstream;
 using namespace std;
-#define MYPORT 4000
+//#define MYPORT 4000
 #define DEFAULT_BUFLEN 9000
 
-
-int main(int argc, char *argv[]) {
+int MYPORT;
+int main(int argc, char **argv) {
 
     //Initialization.
-
+    MYPORT = atoi(argv[1]);
     WSAData wsaData;
     if (WSAStartup(MAKEWORD(1, 1), &wsaData) != 0) {
         fprintf(stderr, "WSAStartup failed.\n");
@@ -52,6 +52,7 @@ int main(int argc, char *argv[]) {
     cout<<"==>"<<"Bind Success"<<"\n";
 
     //Listen
+
     int l = listen(sockfd, 5);
     if(l < 0){
         perror("listen error");
@@ -62,6 +63,7 @@ int main(int argc, char *argv[]) {
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "EndlessLoop"
     while (1) {
+
         cout<<"==>"<<"Waiting For Connection To Accept .. "<<"\n";
         //Accept
         sin_size = sizeof(struct sockaddr_in);

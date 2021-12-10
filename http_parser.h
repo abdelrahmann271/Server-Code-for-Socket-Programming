@@ -154,18 +154,4 @@ void parse_http(char *message ,
         j++;
         y++;
     }
-
-
-//    if(headers.find("Content-Length") != headers.end()){
-//        int len = stoi(headers["Content-Length"]);
-//        cout<<size_of_message<<" "<<len<<"\n";
-//        cout<<"hena 1 \n"<<body<<"\n";
-//        for(int i = (size_of_message-len) ; i < size_of_message ; i++){
-//            body.push_back(message[i]);
-//        }
-//        cout<<"hena 2 \n"<<body<<"\n";
-//    }
-
-
-
 }
